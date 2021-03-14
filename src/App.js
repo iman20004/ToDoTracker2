@@ -137,6 +137,19 @@ class App extends Component {
     );
 }
 
+undo = () =>  {
+  if (this.tps.hasTransactionToUndo()) {
+      this.tps.undoTransaction();
+  }
+} 
+
+redo = () =>  {
+  if (this.tps.hasTransactionToRedo()) {
+      this.tps.doTransaction();
+  }
+}
+
+
   render() {
     let items = this.state.currentList.items;
     return (
@@ -146,6 +159,8 @@ class App extends Component {
           toDoLists={this.state.toDoLists}
           loadToDoListCallback={this.loadToDoList}
           addNewListCallback={this.addNewList}
+          undoCallback={this.undo}
+          redoCallback={this.redo}
         />
         <Workspace toDoListItems={items}
           updateItemCallback={this.addUpdateItemTransaction} 
