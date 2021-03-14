@@ -99,7 +99,7 @@ class App extends Component {
     let newToDoListItem = {
       id: this.highListItemId,
       description: "No Description",
-      dueDate: "none",
+      /*dueDate: "none",*/
       status: "incomplete"
     };
     return newToDoListItem;
@@ -121,15 +121,19 @@ class App extends Component {
 
 
   updateItem = (itemId, desc, date, stat) => {
+
     let updatedList = this.state.currentList
+    console.log(updatedList)
+
     updatedList.items.map((item) => {
       if (item.id === itemId){
           item.description = desc
-          item.dueDate = date
+          item.due_date = date
           item.status = stat
       }
     })
 
+    console.log(updatedList)
     this.setState(
       {
         currentList: updatedList
