@@ -61,6 +61,10 @@
     border-bottom: dotted;
 }
 
+#todo-lists-list {
+    scrollbar-width: thin;
+}
+
 .list-header-card {
     border-bottom: dotted;
 }
@@ -97,6 +101,13 @@
 
 #add-list-button {
     color: var(--swatch-accent);
+}
+
+.input-field {
+    font-family: var(--font-primary);
+    color: rgb(233,237,240);
+    font-size: 12px;
+    font-weight: 400;
 }
 
 .status-incomplete {

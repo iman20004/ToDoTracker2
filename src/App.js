@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import testData from './test/testData.json'
 import jsTPS from './common/jsTPS' // WE NEED THIS TOO
+import UpdateItem_Transaction from './common/UpdateItem_Transaction'
 
 // THESE ARE OUR REACT COMPONENTS
 import Navbar from './components/Navbar'
@@ -96,6 +97,7 @@ class App extends Component {
 
   makeNewToDoListItem = () =>  {
     let newToDoListItem = {
+      id: this.highListItemId,
       description: "No Description",
       dueDate: "none",
       status: "incomplete"
@@ -109,8 +111,31 @@ class App extends Component {
 
     // WILL THIS WORK? @todo
     let toDoListsString = JSON.stringify(this.state.toDoLists);
-    localStorage.setItem("recent_work", toDoListsString);
+    localStorage.setItem("recentLists", toDoListsString);
   }
+
+  addUpdateItemTransaction = (id, oldTask, newTask, oldDate, newDate, oldStatus, newStatus) => {
+    let transaction = new UpdateItem_Transaction(this, id, oldTask, newTask, oldDate, newDate, oldStatus, newStatus);
+    this.tps.addTransaction(transaction);
+  }
+
+
+  updateItem = (itemId, desc, date, stat) => {
+    let updatedList = this.state.currentList
+    updatedList.items.map((item) => {
+      if (item.id === itemId){
+          item.description = desc
+          item.dueDate = date
+          item.status = stat
+      }
+    })
+
+    this.setState(
+      {
+        currentList: updatedList
+      }, this.afterToDoListsChangeComplete
+    );
+}
 
   render() {
     let items = this.state.currentList.items;
@@ -122,7 +147,9 @@ class App extends Component {
           loadToDoListCallback={this.loadToDoList}
           addNewListCallback={this.addNewList}
         />
-        <Workspace toDoListItems={items} />
+        <Workspace toDoListItems={items}
+          updateItemCallback={this.addUpdateItemTransaction} 
+        />
       </div>
     );
   }

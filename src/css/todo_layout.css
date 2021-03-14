@@ -1,7 +1,8 @@
 #root {
-    position:absolute;
+    position:fixed;
     width:98%;
     left:1%;
+    right:1%;
     height:100%;
 }
 
@@ -57,6 +58,8 @@
 #todo-lists-list {
     position:absolute;
     text-align: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
     height:80%;
     width:100%;
     top: 8%;
@@ -90,13 +93,15 @@
 }
 
 .list-item-card {
-    padding-top:20px;
+    /*padding-top:20px;*/
     height: 45px;
     display: flex;
     flex-direction: row;
 }
 
 .item-col {
+    display: flex;
+    align-items: center;
     width:25%;
 }
 
