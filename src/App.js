@@ -191,6 +191,27 @@ class App extends Component {
 
   }
 
+  deleteList = () => {
+    let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
+
+    this.setState(
+      {
+        toDoLists: prepList,
+        currentList: {items: []},
+        nextListId: this.state.nextListId-1
+      }, this.afterToDoListsChangeComplete
+    );
+
+  }
+
+  closeList = () => {
+    this.setState(
+      {
+        currentList: {items: []},
+      }, this.afterToDoListsChangeComplete
+    );
+  }
+
   addNewListItemAtIndex = (itemToAdd, index) => {
     let addToList = this.state.currentList
     addToList.items.splice(index, 0, itemToAdd);
@@ -232,6 +253,8 @@ class App extends Component {
           updateItemCallback={this.addUpdateItemTransaction}
           addNewListItemCallback={this.addNewListItemTransaction} 
           removeItemCallback={this.addRemoveItemTransaction}
+          deleteListCallback={this.deleteList}
+          closeListCallback={this.closeList}
         />
       </div>
     );

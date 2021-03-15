@@ -27,12 +27,12 @@ class Workspace extends Component {
                         <Delete 
                             id="delete-list-button" 
                             className="list-item-control material-icons todo-button" 
-                            //onClick=
+                            onClick={() => {this.props.deleteListCallback()}}
                         />
                         <Close 
                             id="close-list-button" 
                             className="list-item-control material-icons todo-button" 
-                            //onClick=
+                            onClick={() => {this.props.closeListCallback()}}
                         />
                     </div>
                 </div>
