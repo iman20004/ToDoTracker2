@@ -113,8 +113,12 @@ class App extends Component {
   addNewListItem= (newItem) =>  {
     let addToList = JSON.parse(JSON.stringify(this.state.currentList));
     addToList.items.push(newItem)
+
+    let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
+    let newTodoList = [...[addToList], ...prepList];
   
     this.setState({
+      toDoLists: newTodoList,
       currentList: addToList,
       nextListItemId: this.state.nextListItemId+1
     }, this.afterToDoListsChangeComplete);
@@ -146,8 +150,12 @@ class App extends Component {
       }
     })
 
+    let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
+    let newTodoList = [...[updatedList], ...prepList];
+
     this.setState(
       {
+        toDoLists: newTodoList,
         currentList: updatedList
       }, this.afterToDoListsChangeComplete
     );
@@ -217,7 +225,11 @@ class App extends Component {
     let addToList = JSON.parse(JSON.stringify(this.state.currentList));
     addToList.items.splice(index, 0, itemToAdd);
 
+    let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
+    let newTodoList = [...[addToList], ...prepList];
+
     this.setState({
+      toDoLists: newTodoList,
       currentList: addToList,
       nextListItemId: this.state.nextListItemId+1
     }, this.afterToDoListsChangeComplete);
@@ -253,7 +265,11 @@ class App extends Component {
     let newCurrentList = JSON.parse(JSON.stringify(this.state.currentList));
     newCurrentList.items.splice(toIndex, 0, newCurrentList.items.splice(fromIndex, 1)[0]);
     
+    let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
+    let newTodoList = [...[newCurrentList], ...prepList];
+
     this.setState({
+      toDoLists: newTodoList,
       currentList: newCurrentList,
     }, this.afterToDoListsChangeComplete);
   }
