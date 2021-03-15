@@ -35,6 +35,11 @@ class ToDoItem extends Component {
         this.props.updateItemCallback(idNum, itemTask, itemTask, oldDate, newDate, itemStatus, itemStatus )
     }
 
+    removingItem = () => {
+        let item = this.props.toDoListItem;
+        this.props.removeItemCallback(item)
+    }
+
     render() {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem render");
@@ -67,9 +72,16 @@ class ToDoItem extends Component {
                 <div className='item-col status-col' className={statusType}>{listItem.status}</div>
                 <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
-                    <KeyboardArrowUp className='list-item-control todo-button' />
-                    <KeyboardArrowDown className='list-item-control todo-button' />
-                    <Close className='list-item-control todo-button' />
+                    <KeyboardArrowUp 
+                        className='list-item-control todo-button' 
+                    />
+                    <KeyboardArrowDown 
+                        className='list-item-control todo-button' 
+                    />
+                    <Close 
+                        className='list-item-control todo-button' 
+                        onClick={this.removingItem}
+                    />
                     <div className='list-item-control'></div>
                     <div className='list-item-control'></div>
                 </div>

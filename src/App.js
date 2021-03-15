@@ -4,6 +4,8 @@ import testData from './test/testData.json'
 import jsTPS from './common/jsTPS' // WE NEED THIS TOO
 import UpdateItem_Transaction from './common/UpdateItem_Transaction'
 import AddNewItem_Transaction from './common/AddNewItem_Transaction'
+import RemoveItem_Transaction from './common/RemoveItem_Transaction'
+
 
 // THESE ARE OUR REACT COMPONENTS
 import Navbar from './components/Navbar'
@@ -157,6 +159,18 @@ class App extends Component {
     this.tps.addTransaction(transaction);
   }
 
+  addRemoveItemTransaction = (item) => {
+    let itemID = item.id;
+    let listIndex = -1;
+      for (let i = 0; (i < this.state.currentList.items.length); i++) {
+        if (this.state.currentList.items[i].id === itemID)
+          listIndex = i;
+      }
+
+    let transaction = new RemoveItem_Transaction(this, item, listIndex);
+    this.tps.addTransaction(transaction);
+  }
+
   removeItem = (itemID) => {
     const newListItems = this.state.currentList.items.filter(item => item.id !== itemID);
     let newList = this.makeNewToDoList();
@@ -174,6 +188,17 @@ class App extends Component {
         nextListItemId: this.state.nextListItemId-1
       }, this.afterToDoListsChangeComplete
     );
+
+  }
+
+  addNewListItemAtIndex = (itemToAdd, index) => {
+    let addToList = this.state.currentList
+    addToList.items.splice(index, 0, itemToAdd);
+
+    this.setState({
+      currentList: addToList,
+      nextListItemId: this.state.nextListItemId+1
+    }, this.afterToDoListsChangeComplete);
 
   }
 
@@ -206,6 +231,7 @@ class App extends Component {
         <Workspace toDoListItems={items}
           updateItemCallback={this.addUpdateItemTransaction}
           addNewListItemCallback={this.addNewListItemTransaction} 
+          removeItemCallback={this.addRemoveItemTransaction}
         />
       </div>
     );

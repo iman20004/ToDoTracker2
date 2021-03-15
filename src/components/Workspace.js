@@ -22,10 +22,18 @@ class Workspace extends Component {
                         <AddBox 
                             id="add-item-button" 
                             className="list-item-control material-icons todo-button" 
-                            onClick= {this.props.addNewListItemCallback}
+                            onClick={this.props.addNewListItemCallback}
                         />
-                        <Delete id="delete-list-button" className="list-item-control material-icons todo-button" />
-                        <Close id="close-list-button" className="list-item-control material-icons todo-button" />
+                        <Delete 
+                            id="delete-list-button" 
+                            className="list-item-control material-icons todo-button" 
+                            //onClick=
+                        />
+                        <Close 
+                            id="close-list-button" 
+                            className="list-item-control material-icons todo-button" 
+                            //onClick=
+                        />
                     </div>
                 </div>
                 <div id="todo-list-items-div">
@@ -35,6 +43,7 @@ class Workspace extends Component {
                             key={toDoListItem.id}
                             toDoListItem={toDoListItem}     // PASS THE ITEM TO THE CHILDREN
                             updateItemCallback = {this.props.updateItemCallback}
+                            removeItemCallback = {this.props.removeItemCallback}
                         />))
                     }
                 </div>
