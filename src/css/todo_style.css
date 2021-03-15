@@ -108,6 +108,7 @@
     color: rgb(233,237,240);
     font-size: 12px;
     font-weight: 400;
+    border: hidden;
 }
 
 .status-incomplete {

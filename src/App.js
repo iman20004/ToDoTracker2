@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import testData from './test/testData.json'
 import jsTPS from './common/jsTPS' // WE NEED THIS TOO
 import UpdateItem_Transaction from './common/UpdateItem_Transaction'
+import AddNewItem_Transaction from './common/AddNewItem_Transaction'
 
 // THESE ARE OUR REACT COMPONENTS
 import Navbar from './components/Navbar'
@@ -23,6 +24,7 @@ class App extends Component {
     // MAKE OUR TRANSACTION PROCESSING SYSTEM
     this.tps = new jsTPS();
 
+    //localStorage.clear();
     // CHECK TO SEE IF THERE IS DATA IN LOCAL STORAGE FOR THIS APP
     let recentLists = localStorage.getItem("recentLists");
     console.log("recentLists: " + recentLists);
@@ -88,7 +90,7 @@ class App extends Component {
 
   makeNewToDoList = () => {
     let newToDoList = {
-      id: this.highListId,
+      id: this.state.nextListId,
       name: 'Untitled',
       items: []
     };
@@ -97,34 +99,42 @@ class App extends Component {
 
   makeNewToDoListItem = () =>  {
     let newToDoListItem = {
-      id: this.highListItemId,
+      id: this.state.nextListItemId,
       description: "No Description",
-      /*dueDate: "none",*/
+      due_date: "none",
       status: "incomplete"
     };
     return newToDoListItem;
+  }
+
+  addNewListItem= (newItem) =>  {
+    let addToList = this.state.currentList
+    addToList.items.push(newItem)
+  
+    this.setState({
+      currentList: addToList,
+      nextListItemId: this.state.nextListItemId+1
+    }, this.afterToDoListsChangeComplete);
   }
 
   // THIS IS A CALLBACK FUNCTION FOR AFTER AN EDIT TO A LIST
   afterToDoListsChangeComplete = () => {
     console.log("App updated currentToDoList: " + this.state.currentList);
 
-    // WILL THIS WORK? @todo
+    // SAVING TO LOCAL STORAGE
     let toDoListsString = JSON.stringify(this.state.toDoLists);
     localStorage.setItem("recentLists", toDoListsString);
   }
 
+  // TRANSACTION FOR ITEM UPDATE
   addUpdateItemTransaction = (id, oldTask, newTask, oldDate, newDate, oldStatus, newStatus) => {
     let transaction = new UpdateItem_Transaction(this, id, oldTask, newTask, oldDate, newDate, oldStatus, newStatus);
     this.tps.addTransaction(transaction);
   }
 
-
+  // UPDATING ITEM TASK/DATE/STATUS FIELDS
   updateItem = (itemId, desc, date, stat) => {
-
     let updatedList = this.state.currentList
-    console.log(updatedList)
-
     updatedList.items.map((item) => {
       if (item.id === itemId){
           item.description = desc
@@ -133,25 +143,52 @@ class App extends Component {
       }
     })
 
-    console.log(updatedList)
     this.setState(
       {
         currentList: updatedList
       }, this.afterToDoListsChangeComplete
     );
-}
+  }
 
-undo = () =>  {
-  if (this.tps.hasTransactionToUndo()) {
+
+  // TRANSACTION FOR ADDING NEW ITEM 
+  addNewListItemTransaction = () => {
+    let transaction = new AddNewItem_Transaction(this);
+    this.tps.addTransaction(transaction);
+  }
+
+  removeItem = (itemID) => {
+    const newListItems = this.state.currentList.items.filter(item => item.id !== itemID);
+    let newList = this.makeNewToDoList();
+    newList.id = this.state.currentList.id;
+    newList.name = this.state.currentList.name;
+    newList.items = newListItems;
+
+    let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
+    let newTodoList = [...[newList], ...prepList];
+    
+    this.setState(
+      {
+        toDoLists: newTodoList,
+        currentList: newList,
+        nextListItemId: this.state.nextListItemId-1
+      }, this.afterToDoListsChangeComplete
+    );
+
+  }
+
+
+  undo = () =>  {
+    if (this.tps.hasTransactionToUndo()) {
       this.tps.undoTransaction();
-  }
-} 
+    }
+  } 
 
-redo = () =>  {
-  if (this.tps.hasTransactionToRedo()) {
+  redo = () =>  {
+    if (this.tps.hasTransactionToRedo()) {
       this.tps.doTransaction();
+    }
   }
-}
 
 
   render() {
@@ -167,7 +204,8 @@ redo = () =>  {
           redoCallback={this.redo}
         />
         <Workspace toDoListItems={items}
-          updateItemCallback={this.addUpdateItemTransaction} 
+          updateItemCallback={this.addUpdateItemTransaction}
+          addNewListItemCallback={this.addNewListItemTransaction} 
         />
       </div>
     );
