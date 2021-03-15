@@ -5,6 +5,7 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import Close from '@material-ui/icons/Close';
 import Task from './Task'
 import DueDate from './DueDate'
+import Status from './Status'
 
 class ToDoItem extends Component {
     constructor(props) {
@@ -35,6 +36,14 @@ class ToDoItem extends Component {
         this.props.updateItemCallback(idNum, itemTask, itemTask, oldDate, newDate, itemStatus, itemStatus )
     }
 
+    statusChange = (idNum, oldStatus, newStatus) => {
+        let item = this.props.toDoListItem;
+        let itemTask = item.description;
+        let itemDate = item.due_date;
+    
+        this.props.updateItemCallback(idNum, itemTask, itemTask, itemDate, itemDate, oldStatus, newStatus )
+    }
+
     removingItem = () => {
         let item = this.props.toDoListItem;
         this.props.removeItemCallback(item)
@@ -57,19 +66,23 @@ class ToDoItem extends Component {
                     description = {listItem.description}
                     id = {listItem.id}
                 />
-
                 <DueDate 
                     className = "item-col due-date-col"
                     dueDateChangeCallback = {this.dueDateChange}
                     dueDate = {listItem.due_date}
                     id = {listItem.id}
                 />
-
-
+                <Status 
+                    className1 = {`item-col status-col ${statusType}`}
+                    className = "item-col status-col"
+                    statusChangeCallback = {this.statusChange}
+                    status = {listItem.status}
+                    id = {listItem.id}
+                />
 
                 {/* <div className='item-col task-col' onClick={this.handleTaskChange}>{listItem.description}</div> 
-                <div className='item-col due-date-col'>{listItem.due_date}</div>*/}
-                <div className='item-col status-col' className={statusType}>{listItem.status}</div>
+                <div className='item-col due-date-col'>{listItem.due_date}</div>
+                <div className='item-col status-col' className={statusType}>{listItem.status}</div>*/}
                 <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
                     <KeyboardArrowUp 

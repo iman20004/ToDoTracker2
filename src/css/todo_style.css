@@ -111,6 +111,10 @@
     border: hidden;
 }
 
+.option {
+    color: black;
+}
+
 .status-incomplete {
     color: var(--swatch-accent);
 }
