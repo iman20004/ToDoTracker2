@@ -44,6 +44,16 @@ class ToDoItem extends Component {
         this.props.updateItemCallback(idNum, itemTask, itemTask, itemDate, itemDate, oldStatus, newStatus )
     }
 
+    movingItemUp = () => {
+        let id = this.props.toDoListItem.id;
+        this.props.moveItemUpCallback(id);
+    }
+
+    movingItemDown = () => {
+        let id = this.props.toDoListItem.id;
+        this.props.moveItemDownCallback(id);
+    }
+
     removingItem = () => {
         let item = this.props.toDoListItem;
         this.props.removeItemCallback(item)
@@ -86,10 +96,12 @@ class ToDoItem extends Component {
                 <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
                     <KeyboardArrowUp 
-                        className='list-item-control todo-button' 
+                        className='list-item-control todo-button'
+                        onClick={this.movingItemUp} 
                     />
                     <KeyboardArrowDown 
                         className='list-item-control todo-button' 
+                        onClick={this.movingItemDown}
                     />
                     <Close 
                         className='list-item-control todo-button' 

@@ -5,6 +5,7 @@ import jsTPS from './common/jsTPS' // WE NEED THIS TOO
 import UpdateItem_Transaction from './common/UpdateItem_Transaction'
 import AddNewItem_Transaction from './common/AddNewItem_Transaction'
 import RemoveItem_Transaction from './common/RemoveItem_Transaction'
+import MoveItem_Transaction from './common/MoveItem_Transaction'
 
 
 // THESE ARE OUR REACT COMPONENTS
@@ -110,7 +111,7 @@ class App extends Component {
   }
 
   addNewListItem= (newItem) =>  {
-    let addToList = this.state.currentList
+    let addToList = JSON.parse(JSON.stringify(this.state.currentList));
     addToList.items.push(newItem)
   
     this.setState({
@@ -136,7 +137,7 @@ class App extends Component {
 
   // UPDATING ITEM TASK/DATE/STATUS FIELDS
   updateItem = (itemId, desc, date, stat) => {
-    let updatedList = this.state.currentList
+    let updatedList = JSON.parse(JSON.stringify(this.state.currentList));
     updatedList.items.map((item) => {
       if (item.id === itemId){
           item.description = desc
@@ -213,7 +214,7 @@ class App extends Component {
   }
 
   addNewListItemAtIndex = (itemToAdd, index) => {
-    let addToList = this.state.currentList
+    let addToList = JSON.parse(JSON.stringify(this.state.currentList));
     addToList.items.splice(index, 0, itemToAdd);
 
     this.setState({
@@ -221,6 +222,40 @@ class App extends Component {
       nextListItemId: this.state.nextListItemId+1
     }, this.afterToDoListsChangeComplete);
 
+  }
+
+  moveItemUp = (itemID) => {
+    let listIndex = -1;
+      for (let i = 0; (i < this.state.currentList.items.length); i++) {
+        if (this.state.currentList.items[i].id === itemID)
+          listIndex = i;
+      }
+
+    this.addMoveItemTransaction(listIndex, listIndex-1)
+  }
+
+  moveItemDown = (itemID) => {
+    let listIndex = -1;
+      for (let i = 0; (i < this.state.currentList.items.length); i++) {
+        if (this.state.currentList.items[i].id === itemID)
+          listIndex = i;
+      }
+
+    this.addMoveItemTransaction(listIndex, listIndex+1)
+  }
+
+  addMoveItemTransaction = (start, dest) => {
+    let transaction = new MoveItem_Transaction(this, start, dest);
+    this.tps.addTransaction(transaction);
+  }
+
+  moveItem = (fromIndex, toIndex) => {
+    let newCurrentList = JSON.parse(JSON.stringify(this.state.currentList));
+    newCurrentList.items.splice(toIndex, 0, newCurrentList.items.splice(fromIndex, 1)[0]);
+    
+    this.setState({
+      currentList: newCurrentList,
+    }, this.afterToDoListsChangeComplete);
   }
 
 
@@ -255,6 +290,8 @@ class App extends Component {
           removeItemCallback={this.addRemoveItemTransaction}
           deleteListCallback={this.deleteList}
           closeListCallback={this.closeList}
+          moveItemUpCallback={this.moveItemUp}
+          moveItemDownCallback={this.moveItemDown}
         />
       </div>
     );
