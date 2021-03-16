@@ -374,10 +374,23 @@ class App extends Component {
 
   }
 
+  listNameChange = (newName) => {
+    let newCurrentList = JSON.parse(JSON.stringify(this.state.currentList));
+    newCurrentList.name = newName
 
+    let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
+    let newTodoList = [...[newCurrentList], ...prepList];
+
+    this.setState({
+      toDoLists: newTodoList,
+      currentList: newCurrentList
+    }, this.afterToDoListsChangeComplete);
+
+  }
+
+  
   render() {
     let items = this.state.currentList.items;
-    console.log(this.state.toDoLists)
 
     return (
       <div id="container">
@@ -393,6 +406,7 @@ class App extends Component {
             redoCallback={this.redo}
             undoDisable={this.state.undoDisabled}
             redoDisable={this.state.redoDisabled}
+            listNameChangeCallback= {this.listNameChange}
           />
           <Workspace toDoListItems={items}
             updateItemCallback={this.addUpdateItemTransaction}

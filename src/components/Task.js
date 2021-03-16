@@ -37,13 +37,13 @@ class Task extends Component {
         if (this.state.editing) {
             return(
                 <input 
-                className= {`input-field ${this.props.className}`}
-                id={`task-input-${this.props.id}`}
-                type = "text"
-                defaultValue = {this.props.description}
-                style = {{backgroundColor: 'transparent'}}
-                onBlur = {this.stopEdit}
-                autoFocus
+                    className= {`input-field ${this.props.className}`}
+                    id={`task-input-${this.props.id}`}
+                    type = "text"
+                    defaultValue = {this.props.description}
+                    style = {{backgroundColor: 'transparent'}}
+                    onBlur = {this.stopEdit}
+                    autoFocus
                 />
             );
         } else {

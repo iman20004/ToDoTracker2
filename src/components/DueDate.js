@@ -37,13 +37,13 @@ class DueDate extends Component {
         if (this.state.editing) {
             return(
                 <input 
-                className= {`input-field ${this.props.className}`}
-                id={`date-input-${this.props.id}`}
-                type = "date"
-                defaultValue = {this.props.dueDate}
-                style = {{backgroundColor: 'transparent'}}
-                onBlur = {this.stopEdit}
-                autoFocus
+                    className= {`input-field ${this.props.className}`}
+                    id={`date-input-${this.props.id}`}
+                    type = "date"
+                    defaultValue = {this.props.dueDate}
+                    style = {{backgroundColor: 'transparent'}}
+                    onBlur = {this.stopEdit}
+                    autoFocus
                 />
             );
         } else {
