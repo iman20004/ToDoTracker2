@@ -23,16 +23,22 @@ class LeftSidebar extends Component {
                         <AddBox 
                             id="add-list-button"
                             className="material-icons todo_button"
-                            onClick={this.handleAddNewList} />
+                            onClick={this.handleAddNewList} 
+                            //disabled = {this.props.addNewDisabled}
+                            //disabled = {this.props.addNewDisabled == true ? true : false}
+                            //disabled={true}
+                        />
                         <Undo 
                             id="undo-button" 
                             className="list-item-control material-icons todo-button" 
                             onClick={this.props.undoCallback}
+                            //disabled={this.props.undoDisabled}
                         />
                         <Redo 
                             id="redo-button" 
                             className="list-item-control material-icons todo-button" 
                             onClick={this.props.redoCallback}
+                            //disabled={this.props.redoDisabled}
                         />
                     </span>
                 </div>

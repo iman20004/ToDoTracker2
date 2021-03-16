@@ -6,6 +6,7 @@ import UpdateItem_Transaction from './common/UpdateItem_Transaction'
 import AddNewItem_Transaction from './common/AddNewItem_Transaction'
 import RemoveItem_Transaction from './common/RemoveItem_Transaction'
 import MoveItem_Transaction from './common/MoveItem_Transaction'
+import Modal from './components/Modal'
 
 
 // THESE ARE OUR REACT COMPONENTS
@@ -58,7 +59,14 @@ class App extends Component {
       currentList: {items: []},
       nextListId: highListId+1,
       nextListItemId: highListItemId+1,
-      useVerboseFeedback: true
+      useVerboseFeedback: true,
+      modalShow: false,
+      addListDisabled: false,
+      undoDisabled: true,
+      redoDisabled: true,
+      addNewItemDisabled: true,
+      trashListDisabled: true,
+      closeListDisabled: true
     }
   }
 
@@ -72,9 +80,17 @@ class App extends Component {
     );
     nextLists.unshift(toDoList);
 
+    this.tps.clearAllTransactions();
+
     this.setState({
       toDoLists: nextLists,
-      currentList: toDoList
+      currentList: toDoList,
+      addListDisabled: true,
+      undoDisabled: true,
+      redoDisabled: true,
+      addNewItemDisabled: false,
+      trashListDisabled: false,
+      closeListDisabled: false
     });
   }
 
@@ -83,11 +99,19 @@ class App extends Component {
     let newToDoListsList = [...newToDoListInList, ...this.state.toDoLists];
     let newToDoList = newToDoListInList[0];
 
+    this.tps.clearAllTransactions();
+
     // AND SET THE STATE, WHICH SHOULD FORCE A render
     this.setState({
       toDoLists: newToDoListsList,
       currentList: newToDoList,
-      nextListId: this.state.nextListId+1
+      nextListId: this.state.nextListId+1,
+      addListDisabled: true,
+      undoDisabled: true,
+      redoDisabled: true,
+      addNewItemDisabled: false,
+      trashListDisabled: false,
+      closeListDisabled: false
     }, this.afterToDoListsChangeComplete);
   }
 
@@ -193,30 +217,59 @@ class App extends Component {
     this.setState(
       {
         toDoLists: newTodoList,
-        currentList: newList,
-        nextListItemId: this.state.nextListItemId-1
+        currentList: newList
       }, this.afterToDoListsChangeComplete
     );
 
   }
 
+  deleteListConfirmation = () => {
+    this.setState(
+      {
+        modalShow: true
+      }
+    );
+  }
+
+  closeDeleteModal = () => {
+    this.setState(
+      {
+        modalShow: false
+      }
+    );
+  }
+
   deleteList = () => {
     let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
+    this.tps.clearAllTransactions();
 
     this.setState(
       {
         toDoLists: prepList,
         currentList: {items: []},
-        nextListId: this.state.nextListId-1
+        addListDisabled: false,
+        undoDisabled: true,
+        redoDisabled: true,
+        addNewItemDisabled: true,
+        trashListDisabled: true,
+        closeListDisabled: true,
+        modalShow: false
       }, this.afterToDoListsChangeComplete
     );
-
   }
 
   closeList = () => {
+    this.tps.clearAllTransactions();
+
     this.setState(
       {
         currentList: {items: []},
+        addListDisabled: false,
+        undoDisabled: true,
+        redoDisabled: true,
+        addNewItemDisabled: true,
+        trashListDisabled: true,
+        closeListDisabled: true
       }, this.afterToDoListsChangeComplete
     );
   }
@@ -270,14 +323,23 @@ class App extends Component {
 
     this.setState({
       toDoLists: newTodoList,
-      currentList: newCurrentList,
+      currentList: newCurrentList
     }, this.afterToDoListsChangeComplete);
   }
 
 
   undo = () =>  {
+    let undoButton = this.state.undoDisabled;
+
     if (this.tps.hasTransactionToUndo()) {
       this.tps.undoTransaction();
+      if (!this.tps.hasTransactionToUndo()) {
+        undoButton = true;
+      }
+      this.setState({
+        undoDisabled: undoButton,
+        redoDisabled: false,
+      });
     }
   } 
 
@@ -287,28 +349,70 @@ class App extends Component {
     }
   }
 
+  componentDidMount = () => {
+    document.addEventListener('keydown', this.keydownHandler);
+  }
+
+  componentWillUnmount = () => {
+    document.removeEventListener('keydown', this.keydownHandler);
+  }
+
+  keydownHandler = (event) => {
+
+    if (event.ctrlKey) {
+      if (event.keyCode === 90) {
+        if (this.tps.hasTransactionToUndo()) {
+          this.undo();
+        }
+        event.preventDefault();
+      }
+      
+      else if (event.keyCode === 89){
+        this.redo();
+      }
+    } 
+
+  }
+
 
   render() {
     let items = this.state.currentList.items;
+    console.log(this.state.toDoLists)
+
     return (
-      <div id="root">
-        <Navbar />
-        <LeftSidebar 
-          toDoLists={this.state.toDoLists}
-          loadToDoListCallback={this.loadToDoList}
-          addNewListCallback={this.addNewList}
-          undoCallback={this.undo}
-          redoCallback={this.redo}
+      <div id="container">
+
+        <div id="app">
+          <Navbar />
+          <LeftSidebar 
+            toDoLists={this.state.toDoLists}
+            loadToDoListCallback={this.loadToDoList}
+            addNewListCallback={this.addNewList}
+            addNewDisabled={this.state.addListDisabled}
+            undoCallback={this.undo}
+            redoCallback={this.redo}
+            undoDisable={this.state.undoDisabled}
+            redoDisable={this.state.redoDisabled}
+          />
+          <Workspace toDoListItems={items}
+            updateItemCallback={this.addUpdateItemTransaction}
+            addNewListItemCallback={this.addNewListItemTransaction} 
+            removeItemCallback={this.addRemoveItemTransaction}
+            deleteListCallback={this.deleteListConfirmation}
+            closeListCallback={this.closeList}
+            moveItemUpCallback={this.moveItemUp}
+            moveItemDownCallback={this.moveItemDown}
+            keydownCallback={this.keydownHandler}
+          />
+        </div>
+
+        <Modal
+          className={this.state.modalShow === true ? "modal-visible" : "modal"}
+          closeDeleteModalCallback = {this.closeDeleteModal}
+          deleteListCallback = {this.deleteList}
         />
-        <Workspace toDoListItems={items}
-          updateItemCallback={this.addUpdateItemTransaction}
-          addNewListItemCallback={this.addNewListItemTransaction} 
-          removeItemCallback={this.addRemoveItemTransaction}
-          deleteListCallback={this.deleteList}
-          closeListCallback={this.closeList}
-          moveItemUpCallback={this.moveItemUp}
-          moveItemDownCallback={this.moveItemDown}
-        />
+        
+      
       </div>
     );
   }

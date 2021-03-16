@@ -16,7 +16,7 @@
     --font-primary:         'Consolas', sans-serif;
 }
 
-#root {
+#app {
     background-color: var(--swatch-foundation);
     font-family: var(--font-primary);
 }
@@ -125,4 +125,28 @@
 
 #add-item-button, #delete-list-button, #close-list-button {
     text-align: center;
+}
+
+.modal-visible {
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4);
+    font-family: var(--font-primary);
+    color: var(--swatch-text);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.modal-content{
+    background-color: rgb(64, 69, 78);
+}
+
+.modal-button {
+    font-family: var(--font-primary);
+    color: var(--swatch-text);
+    font-size: 14px;
+}
+
+.modal-control:hover{
+    cursor: pointer;
+    background-color: rgba(255,255,255, 0.5);
 }

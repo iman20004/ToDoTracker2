@@ -9,8 +9,7 @@ class Workspace extends Component {
     constructor(props) {
         super(props);
     }
-
-
+  
     render() {
         return (
             <div id="workspace">
@@ -44,8 +43,6 @@ class Workspace extends Component {
                             toDoListItem={toDoListItem}     // PASS THE ITEM TO THE CHILDREN
                             updateItemCallback = {this.props.updateItemCallback}
                             removeItemCallback = {this.props.removeItemCallback}
-                            
-
                             moveItemUpCallback={this.props.moveItemUpCallback}
                             moveItemDownCallback={this.props.moveItemDownCallback}
                         />))
