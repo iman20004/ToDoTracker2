@@ -11,7 +11,11 @@ class LeftSidebar extends Component {
     }
 
     handleAddNewList = () => {
-        this.props.addNewListCallback();
+        console.log("acha")
+        if (!this.props.addNewDisabled){
+            console.log("woah")
+            this.props.addNewListCallback();
+        }
     }
 
     render() {
@@ -21,24 +25,25 @@ class LeftSidebar extends Component {
                     <span className="left-sidebar-header-text">Todolists</span>
                     <span className="left-sidebar-controls" id="add-undo-redo-box">
                         <AddBox 
-                            id="add-list-button"
+                            id = {this.props.addNewDisabled === true ? "" : "add-list-button"}
                             className="material-icons todo_button"
                             onClick={this.handleAddNewList} 
-                            //disabled = {this.props.addNewDisabled}
-                            //disabled = {this.props.addNewDisabled == true ? true : false}
-                            //disabled={true}
+                            color={this.props.addNewDisabled === true ? "disabled" : "inherit"}
+                            style={this.props.addNewDisabled ? { pointerEvents: "none" } : {}}
                         />
                         <Undo 
                             id="undo-button" 
                             className="list-item-control material-icons todo-button" 
                             onClick={this.props.undoCallback}
-                            //disabled={this.props.undoDisabled}
+                            color={this.props.undoDisable === true ? "disabled" : "inherit"}
+                            style={this.props.undoDisable ? { pointerEvents: "none" } : {}}
                         />
                         <Redo 
                             id="redo-button" 
                             className="list-item-control material-icons todo-button" 
                             onClick={this.props.redoCallback}
-                            //disabled={this.props.redoDisabled}
+                            color={this.props.redoDisable === true ? "disabled" : "inherit"}
+                            style={this.props.undoDisable ? { pointerEvents: "none" } : {}}
                         />
                     </span>
                 </div>

@@ -9,6 +9,25 @@ class Workspace extends Component {
     constructor(props) {
         super(props);
     }
+
+    handleAddNewItem = () => {
+        if (!this.props.addItemDisabled){
+            this.props.addNewListItemCallback();
+        }
+    }
+
+    handleDeleteList = () => {
+        if (!this.props.trashDisabled){
+            this.props.deleteListCallback();
+        }
+    }
+
+    handleCloseList = () => {
+        if (!this.props.closeDisabled){
+            this.props.closeListCallback();
+        }
+    }
+
   
     render() {
         return (
@@ -21,17 +40,23 @@ class Workspace extends Component {
                         <AddBox 
                             id="add-item-button" 
                             className="list-item-control material-icons todo-button" 
-                            onClick={this.props.addNewListItemCallback}
+                            onClick={this.handleAddNewItem}
+                            color={this.props.addItemDisabled ? "disabled" : "inherit"}
+                            style={this.props.addItemDisabled ? { pointerEvents: "none" } : {}}
                         />
                         <Delete 
                             id="delete-list-button" 
                             className="list-item-control material-icons todo-button" 
-                            onClick={() => {this.props.deleteListCallback()}}
+                            onClick={this.handleDeleteList}
+                            color={this.props.trashDisabled ? "disabled" : "inherit"}
+                            style={this.props.trashDisabled ? { pointerEvents: "none" } : {}}
                         />
                         <Close 
                             id="close-list-button" 
                             className="list-item-control material-icons todo-button" 
-                            onClick={() => {this.props.closeListCallback()}}
+                            onClick={this.handleCloseList}
+                            color={this.props.closeDisabled ? "disabled" : "inherit"}
+                            style={this.props.closeDisabled ? { pointerEvents: "none" } : {}}
                         />
                     </div>
                 </div>
@@ -45,6 +70,8 @@ class Workspace extends Component {
                             removeItemCallback = {this.props.removeItemCallback}
                             moveItemUpCallback={this.props.moveItemUpCallback}
                             moveItemDownCallback={this.props.moveItemDownCallback}
+                            startId={this.props.startId}
+                            endId={this.props.endId}
                         />))
                     }
                 </div>

@@ -91,7 +91,7 @@ class App extends Component {
       addNewItemDisabled: false,
       trashListDisabled: false,
       closeListDisabled: false
-    });
+    }, this.afterToDoListsChangeComplete);
   }
 
   addNewList = () => {
@@ -214,10 +214,16 @@ class App extends Component {
     let prepList = this.state.toDoLists.filter(obj => obj.id !== this.state.currentList.id)
     let newTodoList = [...[newList], ...prepList];
     
+    let nextItemId = this.state.nextListItemId
+    if (itemID === (this.state.nextListItemId-1)) {
+      nextItemId = this.state.nextListItemId - 1
+    }
+    
     this.setState(
       {
         toDoLists: newTodoList,
-        currentList: newList
+        currentList: newList,
+        nextListItemId: nextItemId
       }, this.afterToDoListsChangeComplete
     );
 
@@ -329,23 +335,32 @@ class App extends Component {
 
 
   undo = () =>  {
-    let undoButton = this.state.undoDisabled;
+    //let undoButton = this.state.undoDisabled;
 
     if (this.tps.hasTransactionToUndo()) {
       this.tps.undoTransaction();
-      if (!this.tps.hasTransactionToUndo()) {
+      /*if (!this.tps.hasTransactionToUndo()) {
         undoButton = true;
       }
       this.setState({
         undoDisabled: undoButton,
         redoDisabled: false,
-      });
+      });*/
     }
   } 
 
   redo = () =>  {
+    //let redoButton = this.state.redoDisabled;
+
     if (this.tps.hasTransactionToRedo()) {
       this.tps.doTransaction();
+      /*if (!this.tps.hasTransactionTodo()) {
+        redoButton = true;
+      }
+      this.setState({
+        undoDisabled: false,
+        redoDisabled: redoButton,
+      });*/
     }
   }
 
@@ -391,6 +406,12 @@ class App extends Component {
 
   render() {
     let items = this.state.currentList.items;
+    let startId = -1
+    let endId = -1
+    if (items.length !== 0){
+      startId = items[0].id
+      endId = items[items.length -1].id
+    }
 
     return (
       <div id="container">
@@ -408,7 +429,8 @@ class App extends Component {
             redoDisable={this.state.redoDisabled}
             listNameChangeCallback= {this.listNameChange}
           />
-          <Workspace toDoListItems={items}
+          <Workspace 
+            toDoListItems={items}
             updateItemCallback={this.addUpdateItemTransaction}
             addNewListItemCallback={this.addNewListItemTransaction} 
             removeItemCallback={this.addRemoveItemTransaction}
@@ -417,6 +439,11 @@ class App extends Component {
             moveItemUpCallback={this.moveItemUp}
             moveItemDownCallback={this.moveItemDown}
             keydownCallback={this.keydownHandler}
+            addItemDisabled={this.state.addNewItemDisabled}
+            trashDisabled={this.state.trashListDisabled}
+            closeDisabled={this.state.closeListDisabled}
+            startId={startId}
+            endId={endId}
           />
         </div>
 

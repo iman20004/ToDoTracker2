@@ -46,12 +46,16 @@ class ToDoItem extends Component {
 
     movingItemUp = () => {
         let id = this.props.toDoListItem.id;
-        this.props.moveItemUpCallback(id);
+        if (this.props.startId !== id){
+            this.props.moveItemUpCallback(id);
+        }
     }
 
     movingItemDown = () => {
         let id = this.props.toDoListItem.id;
-        this.props.moveItemDownCallback(id);
+        if (this.props.endId !== id){
+            this.props.moveItemDownCallback(id);
+        }
     }
 
     removingItem = () => {
@@ -89,19 +93,19 @@ class ToDoItem extends Component {
                     status = {listItem.status}
                     id = {listItem.id}
                 />
-
-                {/* <div className='item-col task-col' onClick={this.handleTaskChange}>{listItem.description}</div> 
-                <div className='item-col due-date-col'>{listItem.due_date}</div>
-                <div className='item-col status-col' className={statusType}>{listItem.status}</div>*/}
                 <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
                     <KeyboardArrowUp 
                         className='list-item-control todo-button'
                         onClick={this.movingItemUp} 
+                        color={(this.props.startId === listItem.id) ? "disabled" : "inherit"}
+                        style={(this.props.startId === listItem.id) ? { pointerEvents: "none" } : {}}
                     />
                     <KeyboardArrowDown 
                         className='list-item-control todo-button' 
                         onClick={this.movingItemDown}
+                        color={(this.props.endId === listItem.id) ? "disabled" : "inherit"}
+                        style={(this.props.endId === listItem.id) ? { pointerEvents: "none" } : {}}
                     />
                     <Close 
                         className='list-item-control todo-button' 
