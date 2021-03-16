@@ -388,7 +388,7 @@ class App extends Component {
 
   }
 
-  
+
   render() {
     let items = this.state.currentList.items;
 
