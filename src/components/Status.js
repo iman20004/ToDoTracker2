@@ -43,8 +43,8 @@ class Status extends Component {
                     style = {{backgroundColor: 'transparent'}}
                     onBlur = {this.stopEdit}
                     autoFocus>
-                        <option class= "option" value="complete">complete</option>
-                        <option class= "option" value="incomplete">incomplete</option>
+                        <option className= "option" value="complete">complete</option>
+                        <option className= "option" value="incomplete">incomplete</option>
                 </select>
                 
             );

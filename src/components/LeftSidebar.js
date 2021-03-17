@@ -43,7 +43,7 @@ class LeftSidebar extends Component {
                             className="list-item-control material-icons todo-button" 
                             onClick={this.props.redoCallback}
                             color={this.props.redoDisable === true ? "disabled" : "inherit"}
-                            style={this.props.undoDisable ? { pointerEvents: "none" } : {}}
+                            style={this.props.redoDisable ? { pointerEvents: "none" } : {}}
                         />
                     </span>
                 </div>

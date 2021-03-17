@@ -62,8 +62,6 @@ class App extends Component {
       useVerboseFeedback: true,
       modalShow: false,
       addListDisabled: false,
-      undoDisabled: true,
-      redoDisabled: true,
       addNewItemDisabled: true,
       trashListDisabled: true,
       closeListDisabled: true
@@ -86,8 +84,6 @@ class App extends Component {
       toDoLists: nextLists,
       currentList: toDoList,
       addListDisabled: true,
-      undoDisabled: true,
-      redoDisabled: true,
       addNewItemDisabled: false,
       trashListDisabled: false,
       closeListDisabled: false
@@ -107,8 +103,6 @@ class App extends Component {
       currentList: newToDoList,
       nextListId: this.state.nextListId+1,
       addListDisabled: true,
-      undoDisabled: true,
-      redoDisabled: true,
       addNewItemDisabled: false,
       trashListDisabled: false,
       closeListDisabled: false
@@ -254,8 +248,6 @@ class App extends Component {
         toDoLists: prepList,
         currentList: {items: []},
         addListDisabled: false,
-        undoDisabled: true,
-        redoDisabled: true,
         addNewItemDisabled: true,
         trashListDisabled: true,
         closeListDisabled: true,
@@ -271,8 +263,6 @@ class App extends Component {
       {
         currentList: {items: []},
         addListDisabled: false,
-        undoDisabled: true,
-        redoDisabled: true,
         addNewItemDisabled: true,
         trashListDisabled: true,
         closeListDisabled: true
@@ -335,32 +325,14 @@ class App extends Component {
 
 
   undo = () =>  {
-    //let undoButton = this.state.undoDisabled;
-
-    if (this.tps.hasTransactionToUndo()) {
+   if (this.tps.hasTransactionToUndo()) {
       this.tps.undoTransaction();
-      /*if (!this.tps.hasTransactionToUndo()) {
-        undoButton = true;
-      }
-      this.setState({
-        undoDisabled: undoButton,
-        redoDisabled: false,
-      });*/
     }
   } 
 
   redo = () =>  {
-    //let redoButton = this.state.redoDisabled;
-
     if (this.tps.hasTransactionToRedo()) {
       this.tps.doTransaction();
-      /*if (!this.tps.hasTransactionTodo()) {
-        redoButton = true;
-      }
-      this.setState({
-        undoDisabled: false,
-        redoDisabled: redoButton,
-      });*/
     }
   }
 
@@ -413,6 +385,15 @@ class App extends Component {
       endId = items[items.length -1].id
     }
 
+    let undoDisable = true;
+    if (this.tps.hasTransactionToUndo()){
+      undoDisable = false;
+    }
+    let redoDisable = true;
+    if (this.tps.hasTransactionToRedo()){
+      redoDisable = false;
+    }
+
     return (
       <div id="container">
 
@@ -425,8 +406,9 @@ class App extends Component {
             addNewDisabled={this.state.addListDisabled}
             undoCallback={this.undo}
             redoCallback={this.redo}
-            undoDisable={this.state.undoDisabled}
-            redoDisable={this.state.redoDisabled}
+            undoDisable={undoDisable}
+            redoDisable={redoDisable}
+
             listNameChangeCallback= {this.listNameChange}
           />
           <Workspace 
