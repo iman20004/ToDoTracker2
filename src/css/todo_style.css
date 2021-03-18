@@ -80,6 +80,10 @@
     font-weight: normal;
 }
 
+.list-item-card:hover {
+    background-color: #5c6066;
+}
+
 .todo-list-button {
     cursor:pointer;
     background-color: var(--swatch-complement);
@@ -93,6 +97,7 @@
 
 .todo-list-button:hover {
     background-color: var(--swatch-contrast);
+    color: #e9edf0;
 }
 
 .todo-button {
@@ -108,6 +113,10 @@
     color: var(--swatch-accent);
 }
 
+#add-list-button:hover {
+    background-color: black;
+}
+
 .input-field {
     font-family: var(--font-primary);
     color: rgb(233,237,240);
@@ -121,6 +130,10 @@
     color: rgb(233,237,240);
     font-size: 12px;
     font-weight: 400;
+}
+
+.left-sidebar-header-text:hover{
+    background-color:var(--swatch-contrast);
 }
 
 .option {
