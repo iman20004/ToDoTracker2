@@ -64,7 +64,7 @@ class ListLink extends Component {
                         className = "name-input"
                         type = "text"
                         defaultValue = {this.props.toDoList.name}
-                        style = {{backgroundColor: 'transparent'}}
+                        style = {{backgroundColor: '#353a44'}}
                         onBlur = {this.stopEditName}
                         autoFocus
                     />
