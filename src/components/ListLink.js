@@ -19,7 +19,9 @@ class ListLink extends Component {
     }
 
     handleLoadList = () => {
-        this.props.loadToDoListCallback(this.props.toDoList);
+        if (this.props.currentListId !== this.props.toDoList.id){
+            this.props.loadToDoListCallback(this.props.toDoList);
+        }
     }
 
     changeListName = () => {
