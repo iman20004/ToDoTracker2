@@ -93,29 +93,34 @@ class ToDoItem extends Component {
                     status = {listItem.status}
                     id = {listItem.id}
                 />
-                <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
+                    <div className='list-item-control'>
                     <KeyboardArrowUp 
-                        className='list-item-control todo-button'
+                        className='todo-button'
                         onClick={this.movingItemUp} 
                         color={(this.props.startId === listItem.id) ? "disabled" : "inherit"}
                         style={(this.props.startId === listItem.id) ? { pointerEvents: "none" } : {}}
                     />
+                    </div>
+                    <div className='list-item-control'>
                     <KeyboardArrowDown 
                         className='list-item-control todo-button' 
                         onClick={this.movingItemDown}
                         color={(this.props.endId === listItem.id) ? "disabled" : "inherit"}
                         style={(this.props.endId === listItem.id) ? { pointerEvents: "none" } : {}}
                     />
+                    </div>
+                    <div className='list-item-control'>
                     <Close 
                         className='list-item-control todo-button' 
                         onClick={this.removingItem}
                     />
+                    </div>
                     <div className='list-item-control'></div>
                     <div className='list-item-control'></div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

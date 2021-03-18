@@ -22,8 +22,8 @@
 }
 
 #navbar {
-    background-color: var(--swatch-complement);
-    box-shadow: 2px 2px 2px var(--swatch-primary); 
+    background-color: var(--swatch-primary);
+    box-shadow: 2px 3px 2px #636363;
     color: rgb(255,200,25);
     font-weight: bold;
     font-size: 18pt;
@@ -31,23 +31,24 @@
 
 #left-sidebar {
     background-color: var(--swatch-complement);
+    box-shadow: 2px 3px 2px #636363;
     color: rgb(233,237,240);
 }
 
 #left-sidebar-header {
-    border-bottom: dotted;
-    font-size: 14pt;
-    font-weight: bold;
+    border-bottom: 2px dotted;
+    font-size: 15pt;
 }
 
 #todo-list-header-card {
-    border-bottom: dotted;
+    border-bottom: 2px dotted;
     font-size: 14pt;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 #workspace {
     background-color: var(--swatch-primary);
+    box-shadow: 2px 3px 2px #636363;
     color: rgb(233,237,240);
 }
 
@@ -76,13 +77,18 @@
 .list-item-card {
     border-bottom: solid;
     border-width: 1px;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .todo-list-button {
     cursor:pointer;
     background-color: var(--swatch-complement);
-    font-weight: bold;
+    font-weight: 550;
+}
+
+.highlighted-list{
+    background-color: rgb(255,200,25);
+    color: #111111;
 }
 
 .todo-list-button:hover {
@@ -91,7 +97,6 @@
 
 .todo-button {
     cursor:pointer;
-    background-color: var(--swatch-complement);
     font-weight: bold;
 }
 

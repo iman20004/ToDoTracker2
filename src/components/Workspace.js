@@ -37,27 +37,35 @@ class Workspace extends Component {
                     <div id="date-col-header" className="item-col todo-button">Due Date</div>
                     <div id="status-col-header" className="item-col todo-button">Status</div>
                     <div className="item-col" display="flex" flexdirection="row" flexwrap="nowrap">
-                        <AddBox 
-                            id="add-item-button" 
-                            className="list-item-control material-icons todo-button" 
-                            onClick={this.handleAddNewItem}
-                            color={this.props.addItemDisabled ? "disabled" : "inherit"}
-                            style={this.props.addItemDisabled ? { pointerEvents: "none" } : {}}
-                        />
-                        <Delete 
-                            id="delete-list-button" 
-                            className="list-item-control material-icons todo-button" 
-                            onClick={this.handleDeleteList}
-                            color={this.props.trashDisabled ? "disabled" : "inherit"}
-                            style={this.props.trashDisabled ? { pointerEvents: "none" } : {}}
-                        />
-                        <Close 
-                            id="close-list-button" 
-                            className="list-item-control material-icons todo-button" 
-                            onClick={this.handleCloseList}
-                            color={this.props.closeDisabled ? "disabled" : "inherit"}
-                            style={this.props.closeDisabled ? { pointerEvents: "none" } : {}}
-                        />
+                        <div className="list-item-control"/>
+                        <div className="list-item-control"/>
+                        <div className="list-item-control">
+                            <AddBox 
+                                id="add-item-button" 
+                                className="material-icons todo-button" 
+                                onClick={this.handleAddNewItem}
+                                color={this.props.addItemDisabled ? "disabled" : "inherit"}
+                                style={this.props.addItemDisabled ? { pointerEvents: "none" } : {}}
+                            />
+                        </div>
+                        <div className="list-item-control">
+                            <Delete 
+                                id="delete-list-button" 
+                                className="material-icons todo-button" 
+                                onClick={this.handleDeleteList}
+                                color={this.props.trashDisabled ? "disabled" : "inherit"}
+                                style={this.props.trashDisabled ? { pointerEvents: "none" } : {}}
+                            />
+                        </div>
+                        <div className="list-item-control">
+                            <Close 
+                                id="close-list-button" 
+                                className="material-icons todo-button" 
+                                onClick={this.handleCloseList}
+                                color={this.props.closeDisabled ? "disabled" : "inherit"}
+                                style={this.props.closeDisabled ? { pointerEvents: "none" } : {}}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div id="todo-list-items-div">

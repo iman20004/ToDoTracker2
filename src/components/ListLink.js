@@ -49,7 +49,7 @@ class ListLink extends Component {
         if (this.state.editName === false){
             return (
                 <div 
-                    className='todo-list-button'
+                    className={this.props.currentListId === this.props.toDoList.id ? "highlighted-list todo-list-button": "todo-list-button"}
                     onClick={this.handleLoadList}
                     onDoubleClick={this.changeListName}
                 >
@@ -59,7 +59,7 @@ class ListLink extends Component {
         }
         else {
             return (
-                <div className='todo-list-button'>
+                <div className="todo-list-button highlighted-list">
                     <input
                         className = "name-input"
                         type = "text"

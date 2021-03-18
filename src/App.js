@@ -380,6 +380,7 @@ class App extends Component {
     let items = this.state.currentList.items;
     let startId = -1
     let endId = -1
+    let currentListId = -1
     if (items.length !== 0){
       startId = items[0].id
       endId = items[items.length -1].id
@@ -393,6 +394,11 @@ class App extends Component {
     if (this.tps.hasTransactionToRedo()){
       redoDisable = false;
     }
+    
+    if(this.state.currentList.id !== undefined){
+      currentListId = this.state.currentList.id
+    }
+
 
     return (
       <div id="container">
@@ -408,8 +414,8 @@ class App extends Component {
             redoCallback={this.redo}
             undoDisable={undoDisable}
             redoDisable={redoDisable}
-
             listNameChangeCallback= {this.listNameChange}
+            currentListId={currentListId}
           />
           <Workspace 
             toDoListItems={items}

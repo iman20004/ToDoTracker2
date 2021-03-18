@@ -11,9 +11,7 @@ class LeftSidebar extends Component {
     }
 
     handleAddNewList = () => {
-        console.log("acha")
         if (!this.props.addNewDisabled){
-            console.log("woah")
             this.props.addNewListCallback();
         }
     }
@@ -54,7 +52,9 @@ class LeftSidebar extends Component {
                             key={toDoList.id}
                             toDoList={toDoList}                                // PASS THE LIST TO THE CHILDREN
                             loadToDoListCallback={this.props.loadToDoListCallback}   // PASS THE CALLBACK TO THE CHILDREN
-                            listNameChangeCallback={this.props.listNameChangeCallback} /> 
+                            listNameChangeCallback={this.props.listNameChangeCallback} 
+                            currentListId={this.props.currentListId}
+                            /> 
                     ))
                 }
                 </div>
