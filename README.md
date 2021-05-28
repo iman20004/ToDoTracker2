@@ -8,6 +8,7 @@ This is the second implementation of the ToDoTracker app using ReactJS and Node.
 ### Functionality/Features
 - [x] Create a Todo List
 - [x] Delete a Todo List (with verification)
+- [x] Edit Todo List name
 - [x] Most recently opened list appears at the top
 - [x] Add new list item
 - [x] Delete list item
@@ -15,6 +16,7 @@ This is the second implementation of the ToDoTracker app using ReactJS and Node.
 - [x] Undo, Redo
 - [x] Reorder list items (move up and down)
 - [x] Fool proof design (disable buttons which can't be used and mouse over highlighting)
+- [x] Undo/Redo should also work using Control-Z and Control-Y.
 
 ### Starting screen
 <img width="800" alt="Screen Shot 2021-05-27 at 11 34 58 PM" src="https://user-images.githubusercontent.com/60799230/119925833-2dae2180-bf44-11eb-9ad9-d56896243234.png">
